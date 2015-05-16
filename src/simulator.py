@@ -35,7 +35,9 @@ class Simulator:
     def __init__(self, datatime_of_simulation_begining, datatime_of_simulation_finishing, step):
         print('Initialisation of Simulator')
 
-    def simulate(self, hres_, iterations_=10):
+
+    @staticmethod
+    def simulate(hres_, iterations_=10):
         """
         Simulate HRES
 

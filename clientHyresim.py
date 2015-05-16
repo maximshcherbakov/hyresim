@@ -15,10 +15,10 @@ components_of_HRES.append(SolarPanel("Solar Panel # 5147485", 250))
 components_of_HRES.append(SolarPanel("Solar Panel # 5147486", 250))
 
 default_HRES = HRES(components_of_HRES, location)
-
 default_HRES.print_components_list()
 
 # Simulator.simulate(default_HRES, 100)
 
-sim = Simulator("1", "2", 100)
-sim.simulate(default_HRES)
+# sim = Simulator("1", "2", 100)
+# sim.simulate(default_HRES)
+Simulator.simulate(default_HRES)
