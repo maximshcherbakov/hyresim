@@ -1,8 +1,9 @@
-"""Simulator class is responsible for management of simulation.
-
+"""
+    Simulator class is responsible for management of simulation.
 """
 __author__ = 'maxim.shcherbakov'
 
+from src.hres import Component
 class Simulator:
     """
     Simulator of HRES model
@@ -18,31 +19,40 @@ class Simulator:
     step : ineteger
         Step defined as number of seconds
 
+    hres : instance of class 'hres'
+        HRES for simulation
+
     Attributes
     ----------
     timestamp_of_simulation_beginning_ : float,
         Time stamp stands for beginning of simulation.
 
+
     """
     timestamp_of_simulation_beginning_ = None
+    hres = None
 
     def __init__(self, datatime_of_simulation_begining, datatime_of_simulation_finishing, step):
-        print("Initialisation of Simulator")
+        print('Initialisation of Simulator')
 
-    def simulate(self, _loops = 10):
+    def simulate(self, hres_, iterations_=10):
         """
+        Simulate HRES
 
         :param
-            _loops: integer, default = 10
-                Number of loops for simulation
+            iterations_: integer, default = 10
+                Number of iterations for simulation
         :return:
             None
         """
         print("Start the simulation")
 
         try:
-            for i in range(_loops):
-                print("Do iteration = ", i)
+            for iteration in range(iterations_):
+                print("Do iteration = ", iteration)
+                for i, component in enumerate(hres_.get_components()):
+                    print(component.get_name() + " has " + str(component.get_state) + " W")
+
         except:
             print("Error occurs in Simulator.simulate method")
         print("Simulation is done sucessfully")
