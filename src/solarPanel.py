@@ -33,7 +33,9 @@ class SolarPanel(Component):
         """
         self.state = solar_irradiance_ * self.power_capacity * random.random()
 
-    @property
-    def get_state(self):
-        self.get_power(0.25)
+    def get_state(self, **kwargs):
+        try:
+            self.get_power(kwargs["solar_irradiance_"])     # solar_irradiance_ taken from **kwargs only
+        except:
+            print("Failure in get_state: solar_irradiance_ is not in **kwargs")
         return self.state

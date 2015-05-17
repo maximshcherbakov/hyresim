@@ -36,7 +36,7 @@ class Component:
         """
         return self.name
 
-    def get_state(self):
+    def get_state(self, **kwargs):
         """
         Return the state value of component
 
