@@ -3,8 +3,6 @@
 """
 __author__ = 'maxim.shcherbakov'
 
-from src.component import Component
-from src.solarPanel import SolarPanel
 
 class HRES:
     """
@@ -38,3 +36,11 @@ class HRES:
         for i, component in enumerate(self.components):
             print("\n", component.get_name())
 
+    def get_components_names(self):
+        names = []
+        for i, component in enumerate(self.components):
+            names.append(component.get_name())
+        return names
+
+    def get_components_count(self):
+        return len(self.components)
