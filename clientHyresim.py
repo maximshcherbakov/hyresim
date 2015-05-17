@@ -26,6 +26,7 @@ components_of_HRES = []
 components_of_HRES.append(SolarPanel("Solar Panel # 0012456", 80))
 components_of_HRES.append(SolarPanel("Solar Panel # 5147485", 250))
 components_of_HRES.append(SolarPanel("Solar Panel # 5147486", 250))
+components_of_HRES.append(SolarPanel("Solar Panel # 000111", 10))
 hres = HRES(components_of_HRES, location)
 # default_HRES.print_components_list()
 description, simulation_matrix = Simulator.simulate(hres, ws, datetime_simulation_start, iteration_timedelta, number_of_iterations)
