@@ -1,8 +1,6 @@
 __author__ = 'maxim.shcherbakov'
 
 
-# sys.path.insert(0, '/path/to/application/app/folder')
-
 from datetime import datetime, timedelta
 import os
 
