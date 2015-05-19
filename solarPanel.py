@@ -5,8 +5,9 @@
 """
 __author__ = 'maxim.shcherbakov'
 
-from src.component import Component
 import random
+
+from component import Component
 
 
 class SolarPanel(Component):

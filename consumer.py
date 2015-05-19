@@ -1,6 +1,6 @@
 __author__ = 'Nata'
 
-from src.component import Component
+from component import Component
 class Consumer(Component):
     """
 
