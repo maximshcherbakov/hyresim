@@ -12,6 +12,8 @@ from solarPanel import SolarPanel
 from weatherStation import WeatherStation
 from htmlLogger import htmlLogger
 
+from datagen import WeatherDataGenerator
+
 print ("Simulation of Hybrid Renewable Energy Systems")
 location = [59.950637, 30.305097]
 datetime_simulation_start = datetime(2014, 9, 1, 00, 15)
@@ -41,3 +43,6 @@ plt.plot(simulation_matrix.iloc[:,3])
 plt.savefig(path + '\\report\\demo.png')
 lg.appendImage('demo', path + '\\report\\demo.png')
 # plt.show()
+
+# wdg = WeatherDataGenerator()
+# print(wdg.generate())
