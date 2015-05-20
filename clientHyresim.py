@@ -44,5 +44,5 @@ plt.savefig(path + '\\report\\demo.png')
 lg.appendImage('demo', path + '\\report\\demo.png')
 # plt.show()
 
-# wdg = WeatherDataGenerator()
-# print(wdg.generate())
+ #wdg = WeatherDataGenerator()
+ #print(wdg.generate())
