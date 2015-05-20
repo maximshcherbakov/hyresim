@@ -5,3 +5,5 @@ class Consumer(Component):
     """
 
     """
+    def get_state(self, **kwargs):
+        return 10

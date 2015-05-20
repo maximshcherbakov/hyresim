@@ -22,6 +22,12 @@ class SolarPanel(Component):
     power_capacity = 0
 
     def __init__(self, name_, power_capacity_):
+        """
+
+        :param name_:
+        :param power_capacity_:
+        :return:
+        """
         super().__init__(name_)
         self.power_capacity = power_capacity_
 
@@ -32,6 +38,7 @@ class SolarPanel(Component):
         :param solar_irradiance_: float
             Value of solar irradiance that effect to production of solar panels
         """
+        # todo : add correct formula
         self.state = solar_irradiance_ * self.power_capacity * random.random()
 
     def get_state(self, **kwargs):

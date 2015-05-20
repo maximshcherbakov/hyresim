@@ -40,7 +40,7 @@ class Simulator:
         print('Initialisation of Simulator')
 
     @staticmethod
-    def simulate(hres_, weatherstation_, datetime_simulation_start_, iteration_timedelta_, iterations_=10):
+    def simulate(hres_, weatherstation_, datetime_simulation_start_, iteration_timedelta_, iterations_=96):
         """
         Simulate HRES.
 
@@ -57,7 +57,7 @@ class Simulator:
         iteration_timedelta_ : timedelta_
             Time delta: time difference between steps of simulations. Use case: iteration_timedelta = timedelta(minutes=15)
 
-        iterations_: integer, default = 10
+        iterations_: integer, default = 96
             Number of iterations for simulation
 
         :return:
@@ -82,7 +82,7 @@ class Simulator:
                 print("Simulate iteration # " + str(iteration) + " for " + str(current_datetime))
                 simulation_matrix.iloc[iteration, 0] = current_datetime
                 for i, component in enumerate(hres_.get_components()):
-                    kwargs = weatherstation_.get_weather_conditions(1)
+                    kwargs = weatherstation_.get_weather_conditions(current_datetime)
                     simulation_matrix.iloc[iteration, i + 1] = component.get_state(**kwargs)
                 current_datetime = current_datetime + iteration_timedelta_
         except:
