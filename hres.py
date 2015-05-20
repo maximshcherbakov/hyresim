@@ -24,6 +24,16 @@ class HRES:
     components = []
 
     def __init__(self, components_list_, location_):
+        """
+            Create HRES
+
+        :param
+        components_list_: list
+            List of components, e.g. instances of Component class (and their childs)
+
+        :param location_:
+        :return:
+        """
         print('Creating the HRES using list of components')
         self.components = components_list_
         self.location = location_

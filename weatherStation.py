@@ -20,9 +20,10 @@ class WeatherStation():
 
     def __init__(self, location_):
         print("Weather Station is created")
+        # upload weather data from csv file
         self.location = location_
 
 
     def get_weather_conditions(self, datetime_):
         # Here we need to obtain real values based on location and datetime
-        return {"solar_irradiance_": 0.25, "outdoor_temperature": -15.2}
+        return {"solar_irradiance_": 0.25, "outdoor_temperature": -15.2, "humidity": 80}
