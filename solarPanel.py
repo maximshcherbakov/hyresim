@@ -60,20 +60,18 @@ class SolarPanel(Component):
         :param solar_irradiance_: float
             Value of solar irradiance that effect to production of solar panels
 
-        We use function f(x)=sin(x)*random() to simulate the change of the generation electricity from solar panel
-        due to time of the day
         """
         # todo : add correct formula
 
-        self.state = self.nominal_power_capacity_ * (solar_irradiance_ / standard_irradiance_ ) *(1 + temperature_coefficient_ * (surface_temperature_ - standard_temperature_ )) * random.random()
+        self.state = self.nominal_power_capacity_ * (self.solar_irradiance_ / self.standard_irradiance_ ) *(1 + self.temperature_coefficient_ * (self.surface_temperature_ - self.standard_temperature_ ))
 
     def get_state(self, **kwargs):
         try:
 
             # Need to fix this error
 
-            self.get_power(kwargs["solar_irradiance_", "surface_temperature_", "temperature_coefficient_", "standard_temperature_", "standard_irradiance_"])
-            #, kwargs["surface_temperature_"], kwargs["temperature_coefficient_"], kwargs["standard_temperature_"], kwargs["standard_irradiance_"])     # solar_irradiance_ taken from **kwargs only
+            self.get_power(kwargs["solar_irradiance_"], kwargs["surface_temperature_"], kwargs["temperature_coefficient_"], kwargs["standard_temperature_"], kwargs["standard_irradiance_"])
+                     # solar_irradiance_ taken from **kwargs only
         except:
             print("Failure in get_state: solar_irradiance_ is not in **kwargs")
         return self.state
