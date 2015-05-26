@@ -11,6 +11,7 @@ from hres import HRES
 from solarPanel import SolarPanel
 from weatherStation import WeatherStation
 from htmlLogger import htmlLogger
+from consumer import Consumer
 
 from datagen import WeatherDataGenerator
 
@@ -30,6 +31,7 @@ ws = WeatherStation(location)
 components_of_HRES = [SolarPanel("Solar Panel # 0012456", 80), SolarPanel("Solar Panel # 5147485", 250),
                       SolarPanel("Solar Panel # 5147486", 250), SolarPanel("Solar Panel # 000111", 10)]
 
+components_of_HRES.append(Consumer("Main Building"))
 sp = SolarPanel("Thangs Solar Panel", 100)
 
 components_of_HRES.append(sp)
@@ -43,8 +45,11 @@ lg.appendDataFrame(simulation_matrix)
 print(description)
 # print(simulation_matrix)
 
-plt.plot(simulation_matrix.iloc[:,2])
-plt.plot(simulation_matrix.iloc[:,3])
+# plt.plot(simulation_matrix.iloc[:,2])
+# plt.plot(simulation_matrix.iloc[:,3])
+plt.plot(simulation_matrix["Solar Panel # 0012456"])
+plt.plot(simulation_matrix["Main Building"])
+
 plt.savefig(path + '\\report\\demo.png')
 lg.appendImage('demo', path + '\\report\\demo.png')
 # plt.show()
