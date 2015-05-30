@@ -28,9 +28,8 @@ lg.appendParagraph("Simulation of Hybrid Renewable Energy Systems")
 # Create the weather station
 ws = WeatherStation(location)
 # Create the HRES
-# solar panel (name_, nominal_power_capacity_, surface_temperature_, temperature_coefficient_, standard_temperature_, standard_irradiance_)
-components_of_HRES = [SolarPanel("Solar Panel # 0012456", 80, 30, 0.02, 25, 1000), SolarPanel("Solar Panel # 5147485", 250,30, 0.02, 25, 1000),
-                      SolarPanel("Solar Panel # 5147486", 250,30, 0.02, 25, 1000), SolarPanel("Solar Panel # 000111", 10,30, 0.02, 25, 1000)]
+# solar panel (name_, nominal_power_capacity_, temperature_coefficient_)
+components_of_HRES = [SolarPanel("Solar Panel # 001", 800, 0.02)]
 
 components_of_HRES.append(Consumer("Main Building"))
 #sp = SolarPanel("Thangs Solar Panel", 100)

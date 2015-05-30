@@ -26,4 +26,4 @@ class WeatherStation():
 
     def get_weather_conditions(self, datetime_):
         # Here we need to obtain real values based on location and datetime
-        return {"solar_irradiance_": 0.25, "outdoor_temperature": -15.2, "humidity": 80}
+        return {"solar_irradiance_": 0.25, "outdoor_temperature_": -15.2, "humidity": 80}
