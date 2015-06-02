@@ -80,8 +80,10 @@ class Simulator:
         try:
             for iteration in range(iterations_):
                 print("Simulate iteration # " + str(iteration) + " for " + str(current_datetime))
+
                 simulation_matrix.iloc[iteration, 0] = current_datetime
                 for i, component in enumerate(hres_.get_components()):
+                    print(component.get_name())
                     kwargs = weatherstation_.get_weather_conditions(current_datetime)
                     simulation_matrix.iloc[iteration, i + 1] = component.get_state(**kwargs)
                 current_datetime = current_datetime + iteration_timedelta_

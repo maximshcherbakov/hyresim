@@ -46,7 +46,7 @@ class SolarPanel(Component):
         self.nominal_power_capacity = nominal_power_capacity_
         self.temperature_coefficient = temperature_coefficient_
 
-    def get_power(self,solar_irradiance_, outdoor_temperature_):
+    def get_power(self, solar_irradiance_, outdoor_temperature_):
         """
         Obtain the value of state based on calculation of solar_irradiance_. MUST be replaced by correct formula.
 
@@ -54,20 +54,20 @@ class SolarPanel(Component):
             Value of solar irradiance that effect to production of solar panels
         :param outdoor_temperature_
             Value of outdoor temperature that effect to production of solar panels
-
         """
         # todo : add correct formula
+        print("self.nominal_power_capacity_", self.nominal_power_capacity)
+        print("solar_irradiance_ ", solar_irradiance_ )
+        print("self.temperature_coefficient_ ", self.temperature_coefficient )
+        print("outdoor_temperature_ ", outdoor_temperature_ )
 
-
-        self.state = self.nominal_power_capacity_ * (solar_irradiance_ / 1000) *(1 + self.temperature_coefficient_ * (outdoor_temperature_ - 25 ))
+        self.state = self.nominal_power_capacity * (solar_irradiance_ / 1000) * (
+            1 + self.temperature_coefficient * (outdoor_temperature_ - 25))
 
     def get_state(self, **kwargs):
         try:
-
             # todo: FIX THIS ERROR
-
-            self.get_power(kwargs["solar_irradiance_"],kwargs["outdoor_temperature_"])
-                     # solar_irradiance_ and outdoor_temperature taken from **kwargs only
+            self.get_power(kwargs["solar_irradiance_"], kwargs["outdoor_temperature_"])
         except:
             print("Failure in get_state: solar_irradiance_ is not in **kwargs")
         return self.state

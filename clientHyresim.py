@@ -29,9 +29,8 @@ lg.appendParagraph("Simulation of Hybrid Renewable Energy Systems")
 ws = WeatherStation(location)
 # Create the HRES
 # solar panel (name_, nominal_power_capacity_, temperature_coefficient_)
-components_of_HRES = [SolarPanel("Solar Panel # 001", 800, 0.02)]
+components_of_HRES = [SolarPanel("Solar Panel # 001", 800, 0.02), Consumer("Main Building")]
 
-components_of_HRES.append(Consumer("Main Building"))
 #sp = SolarPanel("Thangs Solar Panel", 100)
 #components_of_HRES.append(sp)
 
@@ -46,7 +45,7 @@ print(description)
 
 # plt.plot(simulation_matrix.iloc[:,2])
 # plt.plot(simulation_matrix.iloc[:,3])
-plt.plot(simulation_matrix["Solar Panel # 0012456"])
+plt.plot(simulation_matrix["Solar Panel # 001"])
 plt.plot(simulation_matrix["Main Building"])
 
 plt.savefig(path + '\\report\\demo.png')
