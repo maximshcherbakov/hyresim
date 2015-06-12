@@ -60,3 +60,7 @@ class htmlLogger():
 
     def appendDataFrame(self, dataframe_):
         self.file_pointer.write(dataframe_.to_html())
+
+    def append_list_of_paragraphs(self, paragraphs_list_):
+        for paragraph in paragraphs_list_:
+            self.appendParagraph(paragraph)

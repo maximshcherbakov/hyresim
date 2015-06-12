@@ -23,6 +23,17 @@ class WeatherStation():
         # upload weather data from csv file
         self.location = location_
 
+    def get_description(self):
+        """
+            Get a list of description of the weather station
+        :return:
+        """
+        description = []
+        description.append("Weather Station")
+        description.append("Location latitude = " + str(self.location[0]))
+        description.append("Location longiude = " + str(self.location[1]))
+        return description
+
 
     def get_weather_conditions(self, datetime_):
         # Here we need to obtain real values based on location and datetime

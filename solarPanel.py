@@ -56,15 +56,15 @@ class SolarPanel(Component):
             Value of outdoor temperature that effect to production of solar panels
         """
         # todo : add correct formula
-        print("self.nominal_power_capacity_", self.nominal_power_capacity)
-        print("solar_irradiance_ ", solar_irradiance_ )
-        print("self.temperature_coefficient_ ", self.temperature_coefficient )
-        print("outdoor_temperature_ ", outdoor_temperature_ )
+        # print("self.nominal_power_capacity_", self.nominal_power_capacity)
+        # print("solar_irradiance_ ", solar_irradiance_ )
+        # print("self.temperature_coefficient_ ", self.temperature_coefficient )
+        # print("outdoor_temperature_ ", outdoor_temperature_ )
 
         self.state = self.nominal_power_capacity * (solar_irradiance_ / 1000) * (
             1 + self.temperature_coefficient * (outdoor_temperature_ - 25))
 
-    def get_state(self, **kwargs):
+    def get_state(self, current_datetime_, **kwargs):
         try:
             # todo: FIX THIS ERROR
             self.get_power(kwargs["solar_irradiance_"], kwargs["outdoor_temperature_"])

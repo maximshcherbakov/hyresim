@@ -71,21 +71,28 @@ class Simulator:
         """
         print("Start the simulation")
         description = None
-        description = ['datetime'] + hres_.get_components_names()
-        # print(description)
-        simulation_matrix = pd.DataFrame(np.zeros((iterations_, int(hres_.get_components_count() + 1))),
-                                         columns=description)
-        current_datetime = datetime_simulation_start_
+        description = hres_.get_components_names()
 
+        # Prepare simulation_matrix
+        tmp_dates = []
+        current_datetime = datetime_simulation_start_
+        for i in range(iterations_):
+            tmp_dates.append(current_datetime)  # .strftime('%y-%m-%d %hour:%minutes')
+            current_datetime += iteration_timedelta_
+
+        simulation_matrix = pd.DataFrame(data= np.zeros ((iterations_, int(hres_.get_components_count()) )),
+                                         columns=description, index=tmp_dates)
+
+        current_datetime = datetime_simulation_start_
         try:
             for iteration in range(iterations_):
-                print("Simulate iteration # " + str(iteration) + " for " + str(current_datetime))
-
-                simulation_matrix.iloc[iteration, 0] = current_datetime
+                # print("Simulate iteration # " + str(iteration) + " for " + str(current_datetime))
+                # simulation_matrix.iloc[iteration, 0] = current_datetime
+                kwargs = weatherstation_.get_weather_conditions(current_datetime)   # get all weather parameters
+                kwargs["consumption_"] = hres_.get_consumption(current_datetime)    # get all consumption to evaluate storage status
                 for i, component in enumerate(hres_.get_components()):
-                    print(component.get_name())
-                    kwargs = weatherstation_.get_weather_conditions(current_datetime)
-                    simulation_matrix.iloc[iteration, i + 1] = component.get_state(**kwargs)
+                    # print(component.get_name())
+                    simulation_matrix.iloc[iteration, i] = component.get_state(current_datetime, **kwargs)
                 current_datetime = current_datetime + iteration_timedelta_
         except:
             print('Error occurs in Simulator.simulate method')

@@ -22,6 +22,7 @@ class Component:
     """
     name = ""
     state = 0
+    description = []
 
     def __init__(self, name_):
         self.name = name_
@@ -36,9 +37,18 @@ class Component:
         """
         return self.name
 
-    def get_state(self, **kwargs):
+    def get_description(self):
+        return self.description
+
+    def get_state(self, current_datetime_, **kwargs):
         """
         Return the state value of component
+        :param:
+            current_datetime_ : datetime object,
+                Current data time stamp where state should be calculated
+
+            **kwargs    : dictionary
+                Set of variables obtained to the current datetime
 
         :return:
         state , float
