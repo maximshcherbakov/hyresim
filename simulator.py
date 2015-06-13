@@ -90,8 +90,10 @@ class Simulator:
                 # simulation_matrix.iloc[iteration, 0] = current_datetime
                 kwargs = weatherstation_.get_weather_conditions(current_datetime)   # get all weather parameters
                 kwargs["consumption_"] = hres_.get_consumption(current_datetime)    # get all consumption to evaluate storage status
+                kwargs["iteration_timedelta_"] = iteration_timedelta_
+
                 for i, component in enumerate(hres_.get_components()):
-                    # print(component.get_name())
+                    print(component.get_name())
                     simulation_matrix.iloc[iteration, i] = component.get_state(current_datetime, **kwargs)
                 current_datetime = current_datetime + iteration_timedelta_
         except:

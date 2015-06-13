@@ -61,7 +61,7 @@ class ConsumersFactory():
             consumption_profile['Consumption'][i] =  100
 
 
-        print(consumption_profile)
+        # print(consumption_profile)
         # Create the consumer instance
         consumer = Consumer(name_, power_, consumption_profile)
         return consumer

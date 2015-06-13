@@ -14,13 +14,26 @@ from htmlLogger import htmlLogger
 from consumer import Consumer
 from consumer import ConsumersFactory
 from datagen import WeatherDataGenerator
+from storageBattery import StorageBattery
+
+
+def draw_charts(dataseries_name_, file_name_, xtitle_, ytitle_):
+    plt.figure(num=None, figsize=(4, 2), dpi=80, facecolor='w', edgecolor='k')
+    plt.plot(simulation_matrix[dataseries_name_])
+    plt.suptitle(dataseries_name_, fontsize=10)
+    plt.tick_params(axis='both', which='major', labelsize=6)
+    plt.tick_params(axis='both', which='minor', labelsize=4)
+    plt.xlabel(xtitle_, fontsize=8)
+    plt.ylabel(ytitle_, fontsize=8)
+    plt.savefig(path + '\\report\\' + file_name_ + '.png')
+
 
 # Settings for simulation process
 print ("Simulation of Hybrid Renewable Energy Systems")
 location = [59.950637, 30.305097]
 datetime_simulation_start = datetime(2015, 5, 19, 00, 15)
 iteration_timedelta = timedelta(minutes=15)
-number_of_iterations = 96
+number_of_iterations = 192
 path = os.path.dirname(os.path.realpath(__file__))
 
 # Creating logger
@@ -40,13 +53,11 @@ total_consumption = cf.make_consumer("Total Consumption", 1000, datetime_simulat
 # solar panel (name_, nominal_power_capacity_, temperature_coefficient_)
 # fridge = Consumer("Main Building", 100, None)
 
+solar_panel = SolarPanel("Solar Panel", 800, 0.02)
 
+storage = StorageBattery("Storage", 1000, 0.5)
 
-
-solar_panel = SolarPanel("Solar Panel # 001", 800, 0.02)
-solar_panel2 = SolarPanel("Solar Panel # 002", 250, 0.02)
-
-components_of_HRES = [total_consumption, solar_panel, solar_panel2]
+components_of_HRES = [total_consumption, solar_panel, storage]
 
 
 #sp = SolarPanel("Thangs Solar Panel", 100)
@@ -74,10 +85,29 @@ print(simulation_matrix[columns[1]][1])
 # plt.plot(simulation_matrix.iloc[:,2])
 # plt.plot(simulation_matrix.iloc[:,3])
 
-plt.figure(num=None, figsize=(2, 2), dpi=80, facecolor='w', edgecolor='k')
-plt.plot(simulation_matrix["Total Consumption"])
-plt.savefig(path + '\\report\\demo.png')
-lg.appendImage('demo', path + '\\report\\demo.png')
+draw_charts("Total Consumption", "consumption", "time", "consumption [Wh]")
+lg.appendImage('consumption', path + '\\report\\consumption.png')
+
+draw_charts("Storage", "storage", "time", "capacity [Ah]")
+lg.appendImage('storage', path + '\\report\\storage.png')
+
+draw_charts("Solar Panel", "pv", "time", "PV power [Wh]")
+lg.appendImage('pv', path + '\\report\\pv.png')
+
+# max_ = simulation_matrix["Storage"].max()
+# plt.figure(num=None, figsize=(4, 2), dpi=80, facecolor='w', edgecolor='k')
+# plt.plot(simulation_matrix["Storage"])
+# plt.ylim([0,max_ + max_ * 0.1])
+# plt.suptitle('Storage', fontsize=10)
+# # plt.tick_params(axis='both', which='minor', labelsize=8)
+#
+# plt.tick_params(axis='both', which='major', labelsize=8)
+# plt.tick_params(axis='both', which='minor', labelsize=6)
+#
+# plt.xlabel('time', fontsize=8)
+# plt.ylabel('Capacity [A*h]', fontsize=8)
+# plt.savefig(path + '\\report\\storage.png')
+# lg.appendImage('storage', path + '\\report\\storage.png')
 
 
 lg.appendDataFrame(simulation_matrix)
