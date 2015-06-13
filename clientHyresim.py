@@ -18,7 +18,7 @@ from storageBattery import StorageBattery
 
 
 def draw_charts(dataseries_name_, file_name_, xtitle_, ytitle_):
-    plt.figure(num=None, figsize=(4, 2), dpi=80, facecolor='w', edgecolor='k')
+    plt.figure(num=None, figsize=(8, 2), dpi=80, facecolor='w', edgecolor='k')
     plt.plot(simulation_matrix[dataseries_name_])
     plt.suptitle(dataseries_name_, fontsize=10)
     plt.tick_params(axis='both', which='major', labelsize=6)
@@ -33,7 +33,7 @@ print ("Simulation of Hybrid Renewable Energy Systems")
 location = [59.950637, 30.305097]
 datetime_simulation_start = datetime(2015, 5, 19, 00, 15)
 iteration_timedelta = timedelta(minutes=15)
-number_of_iterations = 192
+number_of_iterations = 96 * 7
 path = os.path.dirname(os.path.realpath(__file__))
 
 # Creating logger
@@ -55,7 +55,7 @@ total_consumption = cf.make_consumer("Total Consumption", 1000, datetime_simulat
 
 solar_panel = SolarPanel("Solar Panel", 800, 0.02)
 
-storage = StorageBattery("Storage", 1000, 0.5)
+storage = StorageBattery("Storage", 1000, 1)
 
 components_of_HRES = [total_consumption, solar_panel, storage]
 
@@ -74,16 +74,7 @@ description, simulation_matrix = Simulator.simulate(hres, ws, datetime_simulatio
 
 
 columns = simulation_matrix.columns
-print(columns)
-
-
-print(simulation_matrix[columns[1]][1])
-
-
-# print(simulation_matrix)
-
-# plt.plot(simulation_matrix.iloc[:,2])
-# plt.plot(simulation_matrix.iloc[:,3])
+# print(columns)
 
 draw_charts("Total Consumption", "consumption", "time", "consumption [Wh]")
 lg.appendImage('consumption', path + '\\report\\consumption.png')
@@ -93,22 +84,6 @@ lg.appendImage('storage', path + '\\report\\storage.png')
 
 draw_charts("Solar Panel", "pv", "time", "PV power [Wh]")
 lg.appendImage('pv', path + '\\report\\pv.png')
-
-# max_ = simulation_matrix["Storage"].max()
-# plt.figure(num=None, figsize=(4, 2), dpi=80, facecolor='w', edgecolor='k')
-# plt.plot(simulation_matrix["Storage"])
-# plt.ylim([0,max_ + max_ * 0.1])
-# plt.suptitle('Storage', fontsize=10)
-# # plt.tick_params(axis='both', which='minor', labelsize=8)
-#
-# plt.tick_params(axis='both', which='major', labelsize=8)
-# plt.tick_params(axis='both', which='minor', labelsize=6)
-#
-# plt.xlabel('time', fontsize=8)
-# plt.ylabel('Capacity [A*h]', fontsize=8)
-# plt.savefig(path + '\\report\\storage.png')
-# lg.appendImage('storage', path + '\\report\\storage.png')
-
 
 lg.appendDataFrame(simulation_matrix)
 print(description)

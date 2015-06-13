@@ -73,6 +73,8 @@ class Simulator:
         description = None
         description = hres_.get_components_names()
 
+        overall_consumption = 0
+
         # Prepare simulation_matrix
         tmp_dates = []
         current_datetime = datetime_simulation_start_
@@ -90,14 +92,16 @@ class Simulator:
                 # simulation_matrix.iloc[iteration, 0] = current_datetime
                 kwargs = weatherstation_.get_weather_conditions(current_datetime)   # get all weather parameters
                 kwargs["consumption_"] = hres_.get_consumption(current_datetime)    # get all consumption to evaluate storage status
+                overall_consumption += kwargs["consumption_"]
                 kwargs["iteration_timedelta_"] = iteration_timedelta_
 
                 for i, component in enumerate(hres_.get_components()):
-                    print(component.get_name())
+                    # print(component.get_name())
                     simulation_matrix.iloc[iteration, i] = component.get_state(current_datetime, **kwargs)
                 current_datetime = current_datetime + iteration_timedelta_
         except:
             print('Error occurs in Simulator.simulate method')
 
+        print ('Overall Consumption = ' + str(overall_consumption) + ' [W]')
         print('Simulation is done successfully')
         return description, simulation_matrix

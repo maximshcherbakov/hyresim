@@ -25,8 +25,7 @@ class StorageBattery(Component):
 
     def get_state(self, current_datetime, **kwargs):
         # todo: need to be calculaetd based on timedelta_
-        time_ = 1  # 15./60.
-
+        time_ = 1./4.  # 15./60.
         try:
             consumption = kwargs["consumption_"]
             # Calculate difference using Peukert Capacity
