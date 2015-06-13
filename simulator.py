@@ -94,6 +94,7 @@ class Simulator:
                 kwargs["consumption_"] = hres_.get_consumption(current_datetime)    # get all consumption to evaluate storage status
                 overall_consumption += kwargs["consumption_"]
                 kwargs["iteration_timedelta_"] = iteration_timedelta_
+                kwargs["control_strategy_"] = 0
 
                 for i, component in enumerate(hres_.get_components()):
                     # print(component.get_name())

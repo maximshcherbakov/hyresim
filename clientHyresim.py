@@ -55,7 +55,7 @@ total_consumption = cf.make_consumer("Total Consumption", 1000, datetime_simulat
 
 solar_panel = SolarPanel("Solar Panel", 800, 0.02)
 
-storage = StorageBattery("Storage", 1000, 1)
+storage = StorageBattery("Storage", 300, 0)
 
 components_of_HRES = [total_consumption, solar_panel, storage]
 
