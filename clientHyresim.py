@@ -15,6 +15,7 @@ from consumer import Consumer
 from consumer import ConsumersFactory
 from datagen import WeatherDataGenerator
 from storageBattery import StorageBattery
+from smartRelay import BenchmarkControlRelay
 
 
 def draw_charts(dataseries_name_, file_name_, xtitle_, ytitle_):
@@ -59,6 +60,7 @@ storage = StorageBattery("Storage", 300, 0)
 
 components_of_HRES = [total_consumption, solar_panel, storage]
 
+benchmark_relay = BenchmarkControlRelay()
 
 #sp = SolarPanel("Thangs Solar Panel", 100)
 #components_of_HRES.append(sp)
@@ -70,7 +72,7 @@ lg.append_list_of_paragraphs(ws.get_description())
 lg.append_list_of_paragraphs(hres.get_description())
 
 # default_HRES.print_components_list()
-description, simulation_matrix = Simulator.simulate(hres, ws, datetime_simulation_start, iteration_timedelta, number_of_iterations)
+description, simulation_matrix = Simulator.simulate(benchmark_relay, hres, ws, datetime_simulation_start, iteration_timedelta, number_of_iterations)
 
 
 columns = simulation_matrix.columns

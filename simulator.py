@@ -40,7 +40,7 @@ class Simulator:
         print('Initialisation of Simulator')
 
     @staticmethod
-    def simulate(hres_, weatherstation_, datetime_simulation_start_, iteration_timedelta_, iterations_=96):
+    def simulate(relay_, hres_, weatherstation_, datetime_simulation_start_, iteration_timedelta_, iterations_=96):
         """
         Simulate HRES.
 
@@ -95,6 +95,7 @@ class Simulator:
                 overall_consumption += kwargs["consumption_"]
                 kwargs["iteration_timedelta_"] = iteration_timedelta_
                 kwargs["control_strategy_"] = 0
+                relay_.manage(hres_)
 
                 for i, component in enumerate(hres_.get_components()):
                     # print(component.get_name())
