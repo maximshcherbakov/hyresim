@@ -95,7 +95,7 @@ class Simulator:
                 overall_consumption += kwargs["consumption_"]
                 kwargs["iteration_timedelta_"] = iteration_timedelta_
                 kwargs["control_strategy_"] = 0
-                relay_.manage(hres_)
+                relay_.manage(hres_, current_datetime)
 
                 for i, component in enumerate(hres_.get_components()):
                     # print(component.get_name())

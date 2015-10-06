@@ -8,11 +8,14 @@ class Relay:
     def __init__(self):
         pass
 
-    def manage(self, hres_):
-        pass
-
 
 class BenchmarkControlRelay(Relay):
+    """
+
+    """
+
+    control_signals = []
+
 
     def modeling_benchmark_control(s_max_A_, charges_A_, s_max_B_, charges_B_, consumption_, pv_generation_, price_, modeling_interval_ = 12):
         _u = [0] * (modeling_interval_-1)
@@ -65,8 +68,21 @@ class BenchmarkControlRelay(Relay):
         # print ("Modeling has finished")
         return J, _u
 
-    def manage(self, hres_):
+    def manage(self, hres_, current_datetime_):
+        print ("define the control signal")
+        current_control_signal = 0
+        total_consumption = hres_.get_consumption(current_datetime_)
+        total_production = hres_.get_production(current_datetime_)
+        print ("Total Consumption: " + str(total_consumption))
+        print ("Total Production: " + str(total_production))
 
+
+        if total_production >= total_consumption:
+            print("We generate more than consume")
+        else:
+            print("We consume  more than generate")
+
+        self.control_signals[len(self.control_signals):] = [current_control_signal]
         pass
 
     pass

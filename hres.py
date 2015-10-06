@@ -98,3 +98,18 @@ class HRES:
                 # print("get consumer!")
                 total_consumption = total_consumption + component.state
         return total_consumption
+
+    def get_production(self, current_datetime):
+        """
+            Return total production by PV at current datetime
+
+        :param current_datetime: current datetime
+        :return: total_production (float): total production by PV at current datetime
+
+        """
+        total_production = 0
+        for i, component in enumerate(self.components):
+            if component.__class__.__name__ == "SolarPanel":
+                # print("get consumer!")
+                total_production = total_production + component.state
+        return total_production

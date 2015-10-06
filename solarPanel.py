@@ -1,5 +1,5 @@
 """
-    Class for implementation of solar panels
+    Class for implementation of solar panels and storage block A
     Last changes: 17/5/2015
 
 """
@@ -8,7 +8,7 @@ __author__ = 'maxim.shcherbakov'
 import random
 
 from component import Component
-
+from storageBattery import StorageBattery
 
 class SolarPanel(Component):
     """
@@ -35,16 +35,21 @@ class SolarPanel(Component):
     standard_temperature = 25
     standard_irradiance = 1000
 
-    def __init__(self, name_, nominal_power_capacity_, temperature_coefficient_):
+    _storage = None
+
+    def __init__(self, name_, nominal_power_capacity_, temperature_coefficient_, storage_ = None):
         """
         :param name_:
         :param nominal_power_capacity_:
         :param temperature_coefficient_:
+        :param storage_: is the object of  StorageBattery class which is represents Storage Block B
+
         :return:
         """
         super().__init__(name_)
         self.nominal_power_capacity = nominal_power_capacity_
         self.temperature_coefficient = temperature_coefficient_
+        self._storage = storage_
 
     def get_power(self, solar_irradiance_, outdoor_temperature_):
         """
