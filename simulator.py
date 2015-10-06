@@ -72,6 +72,8 @@ class Simulator:
         print("Start the simulation")
         description = None
         description = hres_.get_components_names()
+        description[len(description):] = ["ControlSignal"]
+        description[len(description):] = ["CostFunction"]
 
         overall_consumption = 0
 
@@ -82,7 +84,7 @@ class Simulator:
             tmp_dates.append(current_datetime)  # .strftime('%y-%m-%d %hour:%minutes')
             current_datetime += iteration_timedelta_
 
-        simulation_matrix = pd.DataFrame(data= np.zeros ((iterations_, int(hres_.get_components_count()) )),
+        simulation_matrix = pd.DataFrame(data= np.zeros ((iterations_, int(hres_.get_components_count()+2) )),
                                          columns=description, index=tmp_dates)
 
         current_datetime = datetime_simulation_start_
@@ -100,6 +102,9 @@ class Simulator:
                 for i, component in enumerate(hres_.get_components()):
                     # print(component.get_name())
                     simulation_matrix.iloc[iteration, i] = component.get_state(current_datetime, **kwargs)
+                simulation_matrix.iloc[iteration, hres_.get_components_count()] = relay_.control_signals[len(relay_.control_signals)-1]
+                simulation_matrix.iloc[iteration, hres_.get_components_count()+1] = relay_.cost_function_values[len(relay_.cost_function_values)-1]
+
                 current_datetime = current_datetime + iteration_timedelta_
         except:
             print('Error occurs in Simulator.simulate method')

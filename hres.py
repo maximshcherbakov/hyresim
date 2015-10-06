@@ -86,6 +86,32 @@ class HRES:
         """
         return len(self.components)
 
+    def get_state_of_component_by_name(self, name_):
+        """
+            Return the current state of component by its name
+        :param name_: (string) a name of components of HRES
+        :return:
+            state parameter of component
+        """
+        current_state = None
+        for i, component in enumerate(self.components):
+            if component.name == name_:
+                current_state = component.get_state()
+        return current_state
+
+    def get_component_by_name(self, name_):
+        """
+            Return component (an instance of Component class) by it's name. If component did not found, returns None
+        :param name_: (string) the search component name
+        :return:
+            search_component (an instance of Component class) found component
+        """
+        search_component = None
+        for i, component in enumerate(self.components):
+            if component.name == name_:
+                search_component = component
+        return search_component
+
     def get_consumption(self, current_datetime):
         """
             Return total consumption over all consumption components
@@ -96,7 +122,7 @@ class HRES:
         for i, component in enumerate(self.components):
             if component.__class__.__name__ == "Consumer":
                 # print("get consumer!")
-                total_consumption = total_consumption + component.state
+                total_consumption = total_consumption + component.get_state(current_datetime)
         return total_consumption
 
     def get_production(self, current_datetime):

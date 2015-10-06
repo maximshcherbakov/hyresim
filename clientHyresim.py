@@ -50,7 +50,7 @@ print ("Simulation of Hybrid Renewable Energy Systems")
 location = [59.950637, 30.305097]
 datetime_simulation_start = datetime(2015, 5, 19, 00, 15)
 iteration_timedelta = timedelta(minutes=15)
-number_of_iterations = 96 * 2
+number_of_iterations = 96
 path = os.path.dirname(os.path.realpath(__file__))
 
 # Creating logger
@@ -70,6 +70,7 @@ total_consumption = cf.make_consumer("Total Consumption", 1000, datetime_simulat
 # fridge = Consumer("Main Building", 100, None)
 
 storageA = StorageBattery(name_="StorageA", capacity_=300, charge_=0.5)
+print(storageA)
 storageB = StorageBattery(name_="StorageB", capacity_=300, charge_=0.5)
 solar_panel = SolarPanel(name_="Solar Panel", nominal_power_capacity_=800, temperature_coefficient_=0.02, storage_=storageA)
 components_of_HRES = [total_consumption, solar_panel, storageA, storageB]
