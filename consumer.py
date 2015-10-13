@@ -41,6 +41,18 @@ class ConsumersFactory():
     """
         Creates the instance of the Class Consumer
     """
+
+    _profile_1 = [17.256, 17.1628, 17.0789, 16.2376, 16.7697, 16.7727, 17.2507, 18.4293, 16.0598, 16.9976,
+                    16.2851, 17.6931, 17.5741, 16.4008, 15.8628, 17.2796, 16.2484, 17.4169, 16.1351, 16.0802,
+                    16.9067, 16.9072, 16.4614, 17.3846, 16.687, 16.1185, 16.5016, 17.1023, 16.9477, 17.2466,
+                    16.3577, 17.8381, 16.6401, 16.8081, 16.4357, 16.848, 16.0599, 16.5646, 16.9363, 16.5161,
+                    16.0006, 16.7092, 16.5884, 16.6571, 16.5663, 16.6903, 16.5958, 16.63, 16.671, 17.0847,
+                    16.5221, 16.6127, 16.6176, 17.0544, 16.9716, 16.9032, 17.3345, 16.7972, 15.9917, 16.2279,
+                    17.1029, 16.978, 16.0205, 16.591, 15.8056, 16.7583, 17.1577, 15.7867, 16.7734, 16.2602,
+                    16.8079, 15.964, 16.7803, 16.4572, 16.3126, 16.8357, 18.7196, 15.9033, 15.8696, 17.2444,
+                    16.7664, 15.8081, 16.8318, 16.6988, 16.6816, 16.5235, 16.3746, 15.9147, 16.8162, 16.4219,
+                    16.4129, 16.3233, 16.0406, 16.9449, 17.2333, 15.8762]
+
     profile = [0,0,0,0,0,0,0,0,0,0,
                0,0,0,0,0,0,0,0,0,0,
                0,0,0,0,0,0,0,0,0,0,
@@ -51,6 +63,27 @@ class ConsumersFactory():
                0,0,0,0,0,0,0,0,0,0,
                0,0,0,0,0,0,0,0,0,0,
                 0,0]
+
+    def make_consumer_experiment1(self, name_, power_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
+
+
+        data_ = np.zeros(number_of_iterations_)
+
+        tmp_dates = []
+        current_datetime = datetime_simulation_start
+        k = 0
+        for i in range(number_of_iterations_):
+            data_[i] = self._profile_1[k]
+            tmp_dates.append(current_datetime)
+            current_datetime += iteration_timedelta_
+            k+=1
+            if k == len(self._profile_1):
+                k = 0
+        consumption_profile = pd.DataFrame(data=data_, index=tmp_dates, columns=['Consumption'])
+
+
+        consumer = Consumer(name_, power_, consumption_profile)
+        return consumer
 
     def make_consumer(self, name_, power_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
         # consumption_profile = []

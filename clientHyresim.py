@@ -64,7 +64,10 @@ ws = WeatherStation(location)
 
 # Create consumers
 cf = ConsumersFactory()
-total_consumption = cf.make_consumer("Total Consumption", 1000, datetime_simulation_start, iteration_timedelta, number_of_iterations)
+# total_consumption = cf.make_consumer("Total Consumption", 1000, datetime_simulation_start, iteration_timedelta, number_of_iterations)
+total_consumption = cf.make_consumer_experiment1("Total Consumption", 1000, datetime_simulation_start, iteration_timedelta, number_of_iterations)
+
+
 # kitchen = cf.make_consumer("kitchen", 1000, datetime_simulation_start, iteration_timedelta, number_of_iterations)
 # solar panel (name_, nominal_power_capacity_, temperature_coefficient_)
 # fridge = Consumer("Main Building", 100, None)
