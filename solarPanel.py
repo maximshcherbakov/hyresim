@@ -6,7 +6,8 @@
 __author__ = 'maxim.shcherbakov'
 
 import random
-
+import numpy as np
+import pandas as pd
 from component import Component
 from storageBattery import StorageBattery
 
@@ -30,11 +31,19 @@ class SolarPanel(Component):
         Solar irradiance in standard condition
     """
 
-    _profile_experiment_1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    _profile_production_experiment_1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                              0.1057, 1.4744, 2.3939, 3.8211, 11.8817, 11.0649, 11.3693, 9.4373, 11.7325, 12.1587,
                                 14.723, 9.4681, 10.0964, 10.2821, 16.7039, 29.6371, 18.7177, 22.0234, 25.2014,
                                 23.0188, 19.4218, 12.6238, 9.4799, 11.1222, 5.1241, 3.8932, 5.5004, 3.6354,
                                 1.6375, 0.5586, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+    _profile_production_experiment_2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0.2423, 1.2195, 1.1014, 2.2434, 2.5420, 3.0339, 3.4505, 3.7830, 1.0355,
+                            11.5190, 22.9070, 34.8225, 62.2720, 50.1450, 58.4945, 47.8915, 49.5240, 57.2165,
+                            109.7420, 110.6105, 81.3685, 128.6275, 77.7145, 44.2955, 112.7305, 71.6815, 18.9920,
+                            18.1655, 34.4205, 33.8490, 34.7380, 8.4680, 1.4320, 2.1580, 16.0740, .0068, 2.1898,
+                            1.3579, 1.1713, 0.7163, 0.2889, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0]
 
     nominal_power_capacity = 0
     temperature_coefficient = 0
@@ -82,3 +91,38 @@ class SolarPanel(Component):
         except:
             print("Failure in get_state: solar_irradiance_ is not in **kwargs")
         return self.state
+
+
+    def make_production_experiment_1(self, name_, power_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
+
+        data_ = np.zeros(number_of_iterations_)
+        tmp_dates = []
+        current_datetime = datetime_simulation_start
+        k = 0
+        for i in range(number_of_iterations_):
+            data_[i] = self._profile_production_experiment_1[k]
+            tmp_dates.append(current_datetime)
+            current_datetime += iteration_timedelta_
+            k+=1
+            if k == len(self._profile_production_experiment_1):
+                k = 0
+        production_profile_1 = pd.DataFrame(data=data_, index=tmp_dates, columns=['Consumption in 1st experiment'])
+        solar_panel_1 = SolarPanel(name_, power_, production_profile_1)
+        return solar_panel_1
+
+    def make_production_experiment_2(self, name_, power_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
+
+        data_ = np.zeros(number_of_iterations_)
+        tmp_dates = []
+        current_datetime = datetime_simulation_start
+        k = 0
+        for i in range(number_of_iterations_):
+            data_[i] = self._profile_production_experiment_2[k]
+            tmp_dates.append(current_datetime)
+            current_datetime += iteration_timedelta_
+            k+=1
+            if k == len(self._profile_production_experiment_2):
+                k = 0
+        production_profile_2 = pd.DataFrame(data=data_, index=tmp_dates, columns=['Consumption in 1st experiment'])
+        solar_panel_2 = SolarPanel(name_, power_, production_profile_2)
+        return solar_panel_2

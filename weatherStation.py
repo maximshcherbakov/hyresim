@@ -2,11 +2,12 @@
     Implementation of WeatherStation
 """
 __author__ = 'maxim.shcherbakov'
+import csv
 
 class WeatherStation():
     """
     Class for weather station instances. The main responsibility is to provide
-    weather data for HRES componens on demand
+    weather data for HRES components on demand
 
     Parameters
     ----------
@@ -38,3 +39,8 @@ class WeatherStation():
     def get_weather_conditions(self, datetime_):
         # Here we need to obtain real values based on location and datetime
         return {"solar_irradiance_": 0.25, "outdoor_temperature_": -15.2, "humidity": 80}
+
+    def getWeatherData(self, location_, datetime_):
+        cr = csv.reader(open("data.csv","rb"))
+        for row in cr:
+            print(row)

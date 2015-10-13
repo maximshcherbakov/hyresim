@@ -13,7 +13,7 @@ class Consumer(Component):
 
     power = 0   # maximal power of the component [W]
     # the Pandas Series of consumption during the simulation period.
-    # Indecies indicates the timestamps, and the data is energy consumed during the timedelta
+    # Indexes indicates the timestamps, and the data is energy consumed during the timedelta
     # Column for data is named 'Consumption'
 
     # _state_ indicates the power used durint deltatime [W]
@@ -42,7 +42,7 @@ class ConsumersFactory():
         Creates the instance of the Class Consumer
     """
 
-    _profile_1 = [17.256, 17.1628, 17.0789, 16.2376, 16.7697, 16.7727, 17.2507, 18.4293, 16.0598, 16.9976,
+    _profile_consumption_1 = [17.256, 17.1628, 17.0789, 16.2376, 16.7697, 16.7727, 17.2507, 18.4293, 16.0598, 16.9976,
                     16.2851, 17.6931, 17.5741, 16.4008, 15.8628, 17.2796, 16.2484, 17.4169, 16.1351, 16.0802,
                     16.9067, 16.9072, 16.4614, 17.3846, 16.687, 16.1185, 16.5016, 17.1023, 16.9477, 17.2466,
                     16.3577, 17.8381, 16.6401, 16.8081, 16.4357, 16.848, 16.0599, 16.5646, 16.9363, 16.5161,
@@ -53,37 +53,51 @@ class ConsumersFactory():
                     16.7664, 15.8081, 16.8318, 16.6988, 16.6816, 16.5235, 16.3746, 15.9147, 16.8162, 16.4219,
                     16.4129, 16.3233, 16.0406, 16.9449, 17.2333, 15.8762]
 
-    profile = [0,0,0,0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,0,0,0,
-                0,0]
+    _profile_consumption_2 = [16.2534, 16.3538, 16.2126, 16.3945, 16.1535, 16.005, 16.3083, 16.4135, 15.8802, 16.419, 16.7622,
+                    15.8651, 18.6612, 6.7369, 15.9894, 16.1309, 17.5289, 15.6967, 15.7476, 16.6705, 15.8501, 15.709,
+                    16.4266, 16.2667, 16.2849, 16.1913, 16.4363, 16.6859, 15.8123, 48.2695, 70.9055, 70.3771, 66.2131,
+                    61.6494, 63.9941, 65.5227, 79.497, 87.4764, 83.2983, 104.3891, 112.4102, 104.629, 106.6512, 104.1421,
+                    108.1597, 108.0424, 112.7142, 112.1556, 112.0111, 111.7143, 108.8681, 106.8629, 109.5954, 110.7905,
+                    109.8269, 108.9871, 106.9269, 109.6012, 109.8441, 106.53, 109.6796, 101.2342, 108.907, 109.4964,
+                    109.3118, 109.0647, 106.2338, 102.2167, 105.9839, 96.7221, 97.3943, 84.9826, 76.427, 77.6324, 64.2577,
+                    22.5289, 13.0356, 18.0735, 17.7837, 15.6354, 15.9784, 15.9706, 15.2587, 15.1443, 15.0352, 16.3814,
+                    14.7429, 16.6681, 16.3867, 16.7962, 16.7591, 16.8593, 16.7696, 16.7833, 17.2674, 17.6232]
 
     def make_consumer_experiment1(self, name_, power_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
 
-
         data_ = np.zeros(number_of_iterations_)
-
         tmp_dates = []
         current_datetime = datetime_simulation_start
         k = 0
         for i in range(number_of_iterations_):
-            data_[i] = self._profile_1[k]
+            data_[i] = self._profile_consumption_1[k]
             tmp_dates.append(current_datetime)
             current_datetime += iteration_timedelta_
             k+=1
-            if k == len(self._profile_1):
+            if k == len(self._profile_consumption_1):
                 k = 0
-        consumption_profile = pd.DataFrame(data=data_, index=tmp_dates, columns=['Consumption'])
-
-
+        consumption_profile = pd.DataFrame(data=data_, index=tmp_dates, columns=['Consumption in 1st experiment'])
         consumer = Consumer(name_, power_, consumption_profile)
         return consumer
+
+
+    def make_consumer_experiment2(self, name_, power_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
+
+        data_ = np.zeros(number_of_iterations_)
+        tmp_dates = []
+        current_datetime = datetime_simulation_start
+        k = 0
+        for i in range(number_of_iterations_):
+            data_[i] = self._profile_consumption_2[k]
+            tmp_dates.append(current_datetime)
+            current_datetime += iteration_timedelta_
+            k+=1
+            if k == len(self._profile_consumption_2):
+                k = 0
+        consumption_profile = pd.DataFrame(data=data_, index=tmp_dates, columns=['Consumption in 2nd experiment'])
+        consumer_1 = Consumer(name_, power_, consumption_profile)
+        return consumer_1
+
 
     def make_consumer(self, name_, power_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
         # consumption_profile = []

@@ -4,6 +4,8 @@
 __author__ = 'maxim.shcherbakov'
 
 import random
+import numpy as np
+import pandas as pd
 from component import Component
 
 
@@ -30,8 +32,19 @@ class StorageBattery(Component):
         self.consumed = 0
         self.low_charge_percentage = 0.1
 
+    # def __init__(self, name_, capacity_, charge_, number_of_iterations_):
+    #     # charge -- % of maximal capacity
+    #     super().__init__(name_)
+    #     self.charge = charge_
+    #     self.capacity = capacity_
+    #     self.state = self.capacity * charge_
+    #     self.consumed = 0
+    #     self.low_charge_percentage = 0.1
+    #     data_ = np.zeros(number_of_iterations_)
+
+
     def get_power(self, current_datetime, **kwargs):
-        # todo: need to be calculaetd based on timedelta_
+        # todo: need to be calculated based on timedelta_
         time_ = 1./4.  # 15./60.
         try:
             consumption = kwargs["consumption_"]
