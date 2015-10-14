@@ -3,7 +3,6 @@
 """
 __author__ = 'maxim.shcherbakov'
 
-import pandas as pd
 
 class htmlLogger():
     """

@@ -9,7 +9,7 @@ __author__ = 'maxim.shcherbakov'
 
 class Component:
     """
-    Basic class for components of each HRES 's component
+    Basic class for HRES components
 
     Attributes
     ----------

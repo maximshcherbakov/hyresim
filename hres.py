@@ -56,13 +56,13 @@ class HRES:
         for i, component in enumerate(self.components):
             print("\n", component.get_name())
 
+    @property
     def get_description(self):
         """
             Get a list of description of the HRES
         :return:
         """
-        description = []
-        description.append("HRES contains the following components")
+        description = ["HRES contains the following components"]
         for i, component in enumerate(self.components):
             description.append(component.get_name())
         return description
@@ -129,6 +129,7 @@ class HRES:
         """
             Return total production by PV at current datetime
 
+        :type current_datetime: object
         :param current_datetime: current datetime
         :return: total_production (float): total production by PV at current datetime
 

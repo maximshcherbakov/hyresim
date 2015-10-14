@@ -5,7 +5,6 @@ __author__ = 'maxim.shcherbakov'
 
 import numpy as np
 import pandas as pd
-from datetime import datetime, date, time
 
 
 class Simulator:
@@ -40,11 +39,17 @@ class Simulator:
         print('Initialisation of Simulator')
 
     @staticmethod
-    def simulate(relay_, hres_, weatherstation_, datetime_simulation_start_, iteration_timedelta_, iterations_=96):
+    def simulate(prices_, relay_, hres_, weatherstation_, datetime_simulation_start_, iteration_timedelta_, iterations_=96):
         """
         Simulate HRES.
 
         :param
+        prices_ : instance of _priceGenerator_ class
+            Data about electricity price
+
+        relay_ : instanle of _Relay_ class (or its ancestors)
+            Manages energy flows and defines a set of control signals
+
         hres_ : HRES()
             An instance of  class: see hres.py. A hybrid renewable energy system for simulation
 
@@ -92,12 +97,15 @@ class Simulator:
             for iteration in range(iterations_):
                 # print("Simulate iteration # " + str(iteration) + " for " + str(current_datetime))
                 # simulation_matrix.iloc[iteration, 0] = current_datetime
-                kwargs = weatherstation_.get_weather_conditions(current_datetime)   # get all weather parameters
-                kwargs["consumption_"] = hres_.get_consumption(current_datetime)    # get all consumption to evaluate storage status
+                kwargs = weatherstation_.get_weather_conditions(current_datetime)
+                # get all weather parameters
+                kwargs["consumption_"] = hres_.get_consumption(current_datetime)
+                # get all consumption to evaluate storage status
                 overall_consumption += kwargs["consumption_"]
                 kwargs["iteration_timedelta_"] = iteration_timedelta_
                 kwargs["control_strategy_"] = 0
-                relay_.manage(hres_, current_datetime)
+                kwargs["current_price_"] = prices_.get_price(current_datetime)
+                relay_.manage(hres_, current_datetime, **kwargs)
 
                 for i, component in enumerate(hres_.get_components()):
                     # print(component.get_name())
@@ -107,7 +115,7 @@ class Simulator:
 
                 current_datetime = current_datetime + iteration_timedelta_
         except:
-            print('Error occurs in Simulator.simulate method')
+            print('Error occurs in Simulator.simulate method. Iteration: ' + str(iteration) )
 
         print ('Overall Consumption = ' + str(overall_consumption) + ' [W]')
         print('Simulation is done successfully')
