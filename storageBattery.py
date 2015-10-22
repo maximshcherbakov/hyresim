@@ -49,6 +49,7 @@ class StorageBattery(Component):
         try:
             consumption = kwargs["consumption_"]
             # Calculate difference using Peukert Capacity
+
             delta = (time_ * consumption) / (self.voltage * self.nu)
 
             if (self.state - delta) < self.capacity * self.low_charge_percentage:
