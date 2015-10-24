@@ -105,6 +105,9 @@ class Simulator:
                 kwargs["iteration_timedelta_"] = iteration_timedelta_
                 kwargs["control_strategy_"] = 0
                 kwargs["current_price_"] = prices_.get_price(current_datetime)
+
+                #kwargs["current_price_"] = prices_.get_price(iterations_)
+
                 relay_.manage(hres_, current_datetime, **kwargs)
 
                 for i, component in enumerate(hres_.get_components()):
@@ -117,6 +120,6 @@ class Simulator:
         except:
             print('Error occurs in Simulator.simulate method. Iteration: ' + str(iteration) )
 
-        print ('Overall Consumption = ' + str(overall_consumption) + ' [W]')
+        print ('Overall Consumption = ' + str(overall_consumption) + ' [kW.h]')
         print('Simulation is done successfully')
         return description, simulation_matrix

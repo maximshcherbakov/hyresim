@@ -140,3 +140,4 @@ class HRES:
                 # print("get consumer!")
                 total_production = total_production + component.state
         return total_production
+

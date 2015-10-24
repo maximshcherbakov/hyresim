@@ -31,19 +31,7 @@ class SolarPanel(Component):
         Solar irradiance in standard condition
     """
 
-    _profile_production_experiment_1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                             0.1057, 1.4744, 2.3939, 3.8211, 11.8817, 11.0649, 11.3693, 9.4373, 11.7325, 12.1587,
-                                14.723, 9.4681, 10.0964, 10.2821, 16.7039, 29.6371, 18.7177, 22.0234, 25.2014,
-                                23.0188, 19.4218, 12.6238, 9.4799, 11.1222, 5.1241, 3.8932, 5.5004, 3.6354,
-                                1.6375, 0.5586, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-
-    _profile_production_experiment_2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0.2423, 1.2195, 1.1014, 2.2434, 2.5420, 3.0339, 3.4505, 3.7830, 1.0355,
-                            11.5190, 22.9070, 34.8225, 62.2720, 50.1450, 58.4945, 47.8915, 49.5240, 57.2165,
-                            109.7420, 110.6105, 81.3685, 128.6275, 77.7145, 44.2955, 112.7305, 71.6815, 18.9920,
-                            18.1655, 34.4205, 33.8490, 34.7380, 8.4680, 1.4320, 2.1580, 16.0740, .0068, 2.1898,
-                            1.3579, 1.1713, 0.7163, 0.2889, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0]
+    production_profile = None
 
     nominal_power_capacity = 0
     temperature_coefficient = 0
@@ -52,7 +40,7 @@ class SolarPanel(Component):
 
     _storage = None
 
-    def __init__(self, name_, nominal_power_capacity_, temperature_coefficient_, storage_ = None):
+    def __init__(self, name_, production_profile_):
         """
         :param name_:
         :param nominal_power_capacity_:
@@ -62,9 +50,23 @@ class SolarPanel(Component):
         :return:
         """
         super().__init__(name_)
-        self.nominal_power_capacity = nominal_power_capacity_
-        self.temperature_coefficient = temperature_coefficient_
-        self._storage = storage_
+        self.production_profile = production_profile_
+
+
+    # def __init__(self, name_, nominal_power_capacity_, temperature_coefficient_, production_profile_, storage_ = None):
+    #     """
+    #     :param name_:
+    #     :param nominal_power_capacity_:
+    #     :param temperature_coefficient_:
+    #     :param storage_: is the object of  StorageBattery class which is represents Storage Block B
+    #
+    #     :return:
+    #     """
+    #     super().__init__(name_)
+    #     self.nominal_power_capacity = nominal_power_capacity_
+    #     self.temperature_coefficient = temperature_coefficient_
+    #     self._storage = storage_
+    #     self.production_profile = production_profile_
 
     def get_power(self, solar_irradiance_, outdoor_temperature_):
         """
@@ -85,13 +87,38 @@ class SolarPanel(Component):
             1 + self.temperature_coefficient * (outdoor_temperature_ - 25))
 
     def get_state(self, current_datetime_, **kwargs):
+        # try:
+        #     # todo: FIX THIS ERROR
+        #     self.get_power(kwargs["solar_irradiance_"], kwargs["outdoor_temperature_"])
+        # except:
+        #     print("Failure in get_state: solar_irradiance_ is not in **kwargs")
+        # return self.state
+
         try:
-            # todo: FIX THIS ERROR
-            self.get_power(kwargs["solar_irradiance_"], kwargs["outdoor_temperature_"])
+            # Try to get the consumption for current _datetime_ in the consumption_profile
+            self.state = self.production_profile['Production'][current_datetime_]
+
         except:
-            print("Failure in get_state: solar_irradiance_ is not in **kwargs")
+            print("Error occurs in Component:Production. get_state")
+            self.state = random.random()
         return self.state
 
+
+class ProductionFactory:
+
+    _profile_production_experiment_1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                                0.1057, 1.4744, 2.3939, 3.8211, 11.8817, 11.0649, 11.3693, 9.4373, 11.7325, 12.1587,
+                                14.723, 9.4681, 10.0964, 10.2821, 16.7039, 29.6371, 18.7177, 22.0234, 25.2014,
+                                23.0188, 19.4218, 12.6238, 9.4799, 11.1222, 5.1241, 3.8932, 5.5004, 3.6354,
+                                1.6375, 0.5586, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+    _profile_production_experiment_2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0.2423, 1.2195, 1.1014, 2.2434, 2.5420, 3.0339, 3.4505, 3.7830, 1.0355,
+                            11.5190, 22.9070, 34.8225, 62.2720, 50.1450, 58.4945, 47.8915, 49.5240, 57.2165,
+                            109.7420, 110.6105, 81.3685, 128.6275, 77.7145, 44.2955, 112.7305, 71.6815, 18.9920,
+                            18.1655, 34.4205, 33.8490, 34.7380, 8.4680, 1.4320, 2.1580, 16.0740, .0068, 2.1898,
+                            1.3579, 1.1713, 0.7163, 0.2889, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0]
 
     def make_production_experiment_1(self, name_, power_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
 
@@ -106,8 +133,8 @@ class SolarPanel(Component):
             k+=1
             if k == len(self._profile_production_experiment_1):
                 k = 0
-        production_profile_1 = pd.DataFrame(data=data_, index=tmp_dates, columns=['Consumption in 1st experiment'])
-        solar_panel_1 = SolarPanel(name_, power_, production_profile_1)
+        production_profile = pd.DataFrame(data=data_, index=tmp_dates, columns=['Production'])
+        solar_panel_1 = SolarPanel(name_, production_profile)
         return solar_panel_1
 
     def make_production_experiment_2(self, name_, power_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
@@ -123,6 +150,6 @@ class SolarPanel(Component):
             k+=1
             if k == len(self._profile_production_experiment_2):
                 k = 0
-        production_profile_2 = pd.DataFrame(data=data_, index=tmp_dates, columns=['Consumption in 1st experiment'])
-        solar_panel_2 = SolarPanel(name_, power_, production_profile_2)
+        production_profile = pd.DataFrame(data=data_, index=tmp_dates, columns=['Consumption in 1st experiment'])
+        solar_panel_2 = SolarPanel(name_, production_profile)
         return solar_panel_2

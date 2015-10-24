@@ -11,6 +11,7 @@ from solarPanel import SolarPanel
 from weatherStation import WeatherStation
 from htmlLogger import htmlLogger
 from consumer import ConsumersFactory
+from solarPanel import ProductionFactory
 from storageBattery import StorageBattery
 from smartRelay import BenchmarkControlRelay
 from priceGenerator import priceGenerator
@@ -86,17 +87,32 @@ total_consumption = cf.make_consumer_experiment1("Total Consumption", 1000, date
 # solar panel (name_, nominal_power_capacity_, temperature_coefficient_)
 # fridge = Consumer("Main Building", 100, None)
 
+pf = ProductionFactory()
+solar_panel = 0
+solar_panel = pf.make_production_experiment_1("Total Production", 1000, datetime_simulation_start,
+                                                 iteration_timedelta, number_of_iterations)
+
+
+
 storageA = StorageBattery(name_="StorageA", capacity_=300, charge_=0.5)
 print(storageA)
 storageB = StorageBattery(name_="StorageB", capacity_=300, charge_=0.5)
-solar_panel = SolarPanel(name_="Solar Panel", nominal_power_capacity_=800, temperature_coefficient_=0.02,
-                         storage_=storageA)
+# solar_panel = SolarPanel(name_="Solar Panel", nominal_power_capacity_=800, temperature_coefficient_=0.02,
+#                          storage_=storageA)
+
 components_of_HRES = [total_consumption, solar_panel, storageA, storageB]
 benchmark_relay = BenchmarkControlRelay()
 hres = HRES(components_of_HRES, location)
 
-prices = priceGenerator([1, 1, 1])
-
+#prices = priceGenerator([1, 1, 1])
+prices = priceGenerator([0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673,
+               0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, .0673, 0.0673, 0.0673, 0.0673,
+               0.0673, 0.0673, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243,
+               0.1243, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893,
+               0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893,
+               0.0893, 0.0893, 0.0893, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243,
+               0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893, 0.0893,
+               0.0893, 0.0673, 0.0673, 0.0673, 0.0673])
 
 # Create the description of the experiment
 lg.append_list_of_paragraphs(ws.get_description())
