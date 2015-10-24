@@ -81,6 +81,7 @@ class Simulator:
         description[len(description):] = ["CostFunction"]
 
         overall_consumption = 0
+        overall_production = 0
 
         # Prepare simulation_matrix
         tmp_dates = []
@@ -102,6 +103,11 @@ class Simulator:
                 kwargs["consumption_"] = hres_.get_consumption(current_datetime)
                 # get all consumption to evaluate storage status
                 overall_consumption += kwargs["consumption_"]
+
+                kwargs["production_"] = hres_.get_production(current_datetime)
+                # get all production to evaluate storage status
+                overall_production += kwargs["production_"]
+
                 kwargs["iteration_timedelta_"] = iteration_timedelta_
                 kwargs["control_strategy_"] = 0
                 kwargs["current_price_"] = prices_.get_price(current_datetime)
@@ -121,5 +127,6 @@ class Simulator:
             print('Error occurs in Simulator.simulate method. Iteration: ' + str(iteration) )
 
         print ('Overall Consumption = ' + str(overall_consumption) + ' [kW.h]')
+        print ('Overall Production = ' + str(overall_production) + ' [kW.h]')
         print('Simulation is done successfully')
         return description, simulation_matrix

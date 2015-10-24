@@ -104,6 +104,19 @@ class SolarPanel(Component):
         return self.state
 
 
+    def make_producer(name_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
+        data_ = np.zeros(number_of_iterations_)
+        for i in range(number_of_iterations_):
+            data_[i] = 250 * random.uniform(0.9, 1.1)
+        tmp_dates = []
+        current_datetime = datetime_simulation_start
+        for i in range(number_of_iterations_):
+            tmp_dates.append(current_datetime)
+            current_datetime += iteration_timedelta_
+        consumption_profile = pd.DataFrame(data=data_, index=tmp_dates, columns=['Consumption'])
+        solarPanel_ = SolarPanel(name_, consumption_profile)
+        return solarPanel_
+
 class ProductionFactory:
 
     _profile_production_experiment_1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

@@ -137,7 +137,6 @@ class HRES:
         total_production = 0
         for i, component in enumerate(self.components):
             if component.__class__.__name__ == "SolarPanel":
-                # print("get consumer!")
-                total_production = total_production + component.state
+                total_production = total_production + component.get_state(current_datetime)
         return total_production
 
