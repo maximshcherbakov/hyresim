@@ -575,7 +575,13 @@
       <option name="project" value="LOCAL" />
       <updated>1446788803624</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Add todo, repush">
+      <created>1446788973541</created>
+      <option name="number" value="00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1446788973541</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -647,7 +653,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add Simulator class as an essintial class for simulation management" />
     <MESSAGE value="Class Simulator: added comments using PEP0008&#10;https://www.python.org/dev/peps/pep-0008/" />
     <MESSAGE value="Added the class for describing a HRES&#10;1. Class component&#10;2. class SolarPanel&#10;3. Class hres&#10;" />
     <MESSAGE value="Minor changes in client" />
@@ -672,7 +677,8 @@
     <MESSAGE value="Change in SolarPanel to obtain production data.&#10;Minor change in ClientHyresim" />
     <MESSAGE value="Fix minor error in hres.py (method get_production)" />
     <MESSAGE value="Add todo" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add todo" />
+    <MESSAGE value="Add todo, repush" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add todo, repush" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
