@@ -35,7 +35,7 @@ class WeatherStation():
         description.append("Location longiude = " + str(self.location[1]))
         return description
 
-
+    #todo: Include weather data to calculate electricity generation
     def get_weather_conditions(self, datetime_):
         # Here we need to obtain real values based on location and datetime
         return {"solar_irradiance_": 0.25, "outdoor_temperature_": -15.2, "humidity": 80}
