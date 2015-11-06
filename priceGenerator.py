@@ -28,9 +28,9 @@ class priceGenerator:
     def __init__(self, daily_prices_):
         self._daily_prices = copy.deepcopy(daily_prices_)
 
-    def get_price(self, current_datetime_):
+    def get_price(self, iteration_):
         #return 3.5
-        return self._tariff[1]
+        return self._tariff[iteration_]
     # def get_price(self, current_observe_datetime_, current_datetime_, iteration_timedelta_):
     #     # return tariff in current time by obtain tariff in position iteration
     #     iteration = (current_observe_datetime_-current_datetime_)/iteration_timedelta_;

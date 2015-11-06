@@ -16,14 +16,20 @@ class BenchmarkControlRelay(Relay):
     control_signals = []
     cost_function_values = []
 
+    #todo: Finish this method with control algorithms, apply genetic algorithm here
+    # Modify genetic algorithm to reduce calculating time
     def modeling_benchmark_control(s_max_A_, charges_A_, s_max_B_, charges_B_, consumption_, pv_generation_, price_,
-                                   modeling_interval_=12):
+                                   modeling_interval_=96):
         _u = [0] * (modeling_interval_ - 1)
         J = [0] * (modeling_interval_ - 1)
+
+
         return J, _u
 
+
+    #BASELINE
     def manage(self, hres_, current_datetime_, **kwargs):
-        print("--- Begin manage procedure -- define the control signal")
+        print(str(current_datetime_)+"--- Begin manage procedure -- define the control signal")
 
         current_control_signal = 0
         current_cost_function = 0
@@ -81,9 +87,9 @@ class BenchmarkControlRelay(Relay):
         print("--- End manage procedure")
 
 
-    #Rule-based
+    #RULE_BASED
     def manage_Rule_based(self, hres_, current_datetime_, **kwargs):
-        print("--- Begin manage procedure -- define the control signal using Rule set")
+        print("--- [RULE_BASED]Begin manage procedure -- define the control signal using set of rules")
 
         current_control_signal = 0
         current_cost_function = 0
@@ -105,6 +111,7 @@ class BenchmarkControlRelay(Relay):
         else:
             print("battery_blockA " + str(battery_blockA.name))
             print("battery_blockB " + str(battery_blockB.name))
+
 
 
 

@@ -94,6 +94,9 @@ class Simulator:
                                          columns=description, index=tmp_dates)
 
         current_datetime = datetime_simulation_start_
+
+        #todo need to include cost function J and control signals u
+
         try:
             for iteration in range(iterations_):
                 # print("Simulate iteration # " + str(iteration) + " for " + str(current_datetime))
@@ -110,7 +113,7 @@ class Simulator:
 
                 kwargs["iteration_timedelta_"] = iteration_timedelta_
                 kwargs["control_strategy_"] = 0
-                kwargs["current_price_"] = prices_.get_price(current_datetime)
+                kwargs["current_price_"] = prices_.get_price(iteration)
 
                 #kwargs["current_price_"] = prices_.get_price(iterations_)
 
