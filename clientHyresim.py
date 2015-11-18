@@ -15,6 +15,8 @@ from solarPanel import ProductionFactory
 from storageBattery import StorageBattery
 from smartRelay import BenchmarkControlRelay
 from priceGenerator import priceGenerator
+from weatherStation import WeatherStationFactory
+
 
 
 def draw_charts(dataseries_name_, file_name_, xtitle_, ytitle_):
@@ -69,9 +71,6 @@ path = os.path.dirname(os.path.realpath(__file__))
 lg = htmlLogger(path + '\\report\\hyresim_.html')
 lg.appendParagraph("Simulation of Hybrid Renewable Energy Systems")
 
-# Create the weather station
-ws = WeatherStation(location)
-
 # Create the HRES and its components
 
 # Create consumers
@@ -82,16 +81,16 @@ total_consumption = 0
 total_consumption = cf.make_consumer_experiment1("Total Consumption", 1000, datetime_simulation_start,
                                                  iteration_timedelta, number_of_iterations)
 
-
-# kitchen = cf.make_consumer("kitchen", 1000, datetime_simulation_start, iteration_timedelta, number_of_iterations)
-# solar panel (name_, nominal_power_capacity_, temperature_coefficient_)
-# fridge = Consumer("Main Building", 100, None)
+# Create the weather station
+# ws = WeatherStationFactory()
+# station = 0
+# station = ws.getWeatherData_1("Weather Station", location, datetime_simulation_start,iteration_timedelta,number_of_iterations)
 
 pf = ProductionFactory()
 solar_panel = 0
-solar_panel = pf.make_production_experiment_1("Total Production", 1000, datetime_simulation_start,
-                                                 iteration_timedelta, number_of_iterations)
-
+solar_panel = pf.make_production_experiment_weather("Total Production", location, 1000, datetime_simulation_start, iteration_timedelta, number_of_iterations)
+# solar_panel = pf.make_production_experiment_1("Total Production", 1000, datetime_simulation_start,
+#                                                  iteration_timedelta, number_of_iterations)
 
 
 storageA = StorageBattery(name_="StorageA", capacity_=300, charge_=0.5)
@@ -104,7 +103,6 @@ components_of_HRES = [total_consumption, solar_panel, storageA, storageB]
 benchmark_relay = BenchmarkControlRelay()
 hres = HRES(components_of_HRES, location)
 
-#prices = priceGenerator([1, 1, 1])
 prices = priceGenerator([0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673,
                0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, .0673, 0.0673, 0.0673, 0.0673,
                0.0673, 0.0673, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243, 0.1243,
@@ -115,7 +113,7 @@ prices = priceGenerator([0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673, 0.0673,
                0.0893, 0.0673, 0.0673, 0.0673, 0.0673])
 
 # Create the description of the experiment
-lg.append_list_of_paragraphs(ws.get_description())
+lg.append_list_of_paragraphs(station.get_description())
 lg.append_list_of_paragraphs(hres.get_description)
 
 # default_HRES.print_components_list()

@@ -9,6 +9,7 @@ import random
 import numpy as np
 import pandas as pd
 from component import Component
+from weatherStation import WeatherStationFactory
 from storageBattery import StorageBattery
 
 class SolarPanel(Component):
@@ -51,6 +52,17 @@ class SolarPanel(Component):
         """
         super().__init__(name_)
         self.production_profile = production_profile_
+
+    def get_description(self):
+        """
+            Get a list of description of the weather station
+        :return:
+        """
+        description = []
+        description.append("Solar Panel")
+        description.append("Location latitude = " + str(self.location[0]))
+        description.append("Location longiude = " + str(self.location[1]))
+        return description
 
 
     # def __init__(self, name_, nominal_power_capacity_, temperature_coefficient_, production_profile_, storage_ = None):
@@ -113,8 +125,8 @@ class SolarPanel(Component):
         for i in range(number_of_iterations_):
             tmp_dates.append(current_datetime)
             current_datetime += iteration_timedelta_
-        consumption_profile = pd.DataFrame(data=data_, index=tmp_dates, columns=['Consumption'])
-        solarPanel_ = SolarPanel(name_, consumption_profile)
+        generation_profile = pd.DataFrame(data=data_, index=tmp_dates, columns=['Generation'])
+        solarPanel_ = SolarPanel(name_, generation_profile)
         return solarPanel_
 
 class ProductionFactory:
@@ -134,7 +146,8 @@ class ProductionFactory:
                             1.3579, 1.1713, 0.7163, 0.2889, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0, 0]
 
-    def make_production_experiment_1(self, name_, power_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
+    # Using default profile of electricity generation
+    def make_production_experiment_1(self, name_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
 
         data_ = np.zeros(number_of_iterations_)
         tmp_dates = []
@@ -151,19 +164,57 @@ class ProductionFactory:
         solar_panel_1 = SolarPanel(name_, production_profile)
         return solar_panel_1
 
-    def make_production_experiment_2(self, name_, power_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
+
+    def make_production_experiment_1(self, name_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
 
         data_ = np.zeros(number_of_iterations_)
         tmp_dates = []
         current_datetime = datetime_simulation_start
         k = 0
         for i in range(number_of_iterations_):
-            data_[i] = self._profile_production_experiment_2[k]
+            data_[i] = self._profile_production_experiment_1[k]
             tmp_dates.append(current_datetime)
             current_datetime += iteration_timedelta_
             k+=1
-            if k == len(self._profile_production_experiment_2):
+            if k == len(self._profile_production_experiment_1):
                 k = 0
-        production_profile = pd.DataFrame(data=data_, index=tmp_dates, columns=['Consumption in 1st experiment'])
-        solar_panel_2 = SolarPanel(name_, production_profile)
-        return solar_panel_2
+        production_profile = pd.DataFrame(data=data_, index=tmp_dates, columns=['Production'])
+        solar_panel_1 = SolarPanel(name_, production_profile)
+        return solar_panel_1
+
+
+
+
+
+    # Calculate generation using weather data
+    def make_production_experiment_weather(self, name_, location, nominal_power_capacity, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
+        #Standart condition
+        Solar_standart = 1000
+        Temperature_standart = 25
+        Temperature_coefficient = 0.01
+
+        # Create the weather station
+        ws = WeatherStationFactory()
+        station = ws.get_weather_data("Weather Station", location, datetime_simulation_start,iteration_timedelta_,number_of_iterations_)
+
+        data_generation = np.zeros(number_of_iterations_)
+        data_generation = data_generation.tolist()
+        data_irradiance, data_temperature = station.get_weather_conditions()
+
+        tmp_dates = []
+        current_datetime = datetime_simulation_start
+
+        # Calculate generation profile using weather data
+        for i in range(number_of_iterations_):
+            if (data_temperature[i] - Temperature_standart):
+                data_generation[i] = nominal_power_capacity*data_irradiance[i]*(1+Temperature_coefficient*(data_temperature[i] - Temperature_standart))/Solar_standart
+            tmp_dates.append(current_datetime)
+            current_datetime += iteration_timedelta_
+
+        production_profile = pd.DataFrame(data=data_generation, index=tmp_dates, columns=['Production'])
+        solar_panel_ = SolarPanel(name_, production_profile)
+        return solar_panel_
+
+
+
+

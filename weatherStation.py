@@ -3,8 +3,11 @@
 """
 __author__ = 'maxim.shcherbakov'
 import csv
+import numpy as np
+import pandas as pd
+from component import Component
 
-class WeatherStation():
+class WeatherStation(Component):
     """
     Class for weather station instances. The main responsibility is to provide
     weather data for HRES components on demand
@@ -17,6 +20,38 @@ class WeatherStation():
     Attributes
     ----------
     """
+
+    location = []
+    irradiance = []
+    temperature = []
+
+    def __init__(self, name_, location_, temperature_profile_, irradiance_profile_):
+        print("Weather Station is created")
+        # upload weather data from csv file
+        self.name = name_
+        self.location = location_
+        self.irradiance = irradiance_profile_
+        self.temperature = temperature_profile_
+
+    def get_description(self):
+        """
+            Get a list of description of the weather station
+        :return:
+        """
+        description = []
+        description.append("Weather Station")
+        description.append("Location latitude = " + str(self.location[0]))
+        description.append("Location longiude = " + str(self.location[1]))
+        return description
+
+    #todo: Include weather data to calculate electricity generation
+    def get_weather_conditions(self):
+        # Here we need to obtain real values based on location and datetime
+        return self.irradiance, self.temperature
+
+
+class WeatherStationFactory:
+    # Create instance of the Class Weather Station
     #5/12/2011
     _irradiance_experiment_1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                 0.0010569, 0.00158535, 0.001849575, 0.0021138, 0.0066173, 0.00886905, 0.009994925,
@@ -63,31 +98,63 @@ class WeatherStation():
                                  17.15343, 17.15343, 15.15211, 15.15211, 15.15211, 15.15211, 13.15079, 13.15079,
                                  13.15079, 13.15079]
 
+    # Experiment 1
+    def getWeatherData_1(self, name_, location_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
+        data_irradiance = np.zeros(number_of_iterations_)
+        data_tempearture = np.zeros(number_of_iterations_)
+        tmp_dates = []
+        current_datetime = datetime_simulation_start
+        k = 0
+        for i in range(number_of_iterations_):
+            data_irradiance[i] = self._irradiance_experiment_1[k]
+            data_tempearture[i] = self._temperature_experiment_1[k]
+            tmp_dates.append(current_datetime)
+            current_datetime += iteration_timedelta_
+            k += 1
+            if k == number_of_iterations_:
+                k = 0
 
-    location = []
+        irradiance_profile = pd.DataFrame(data=data_irradiance, index=tmp_dates, columns=['Irradiance'])
+        temperature_profile = pd.DataFrame(data=data_tempearture, index=tmp_dates, columns=['Temperature'])
+        WeatherStation_ = WeatherStation(name_, location_, irradiance_profile, temperature_profile)
+        return WeatherStation_
 
-    def __init__(self, location_):
-        print("Weather Station is created")
-        # upload weather data from csv file
-        self.location = location_
+    # Experiment 2
+    def getWeatherData_2(self, name_, location_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
+        data_irradiance = np.zeros(number_of_iterations_)
+        data_tempearture = np.zeros(number_of_iterations_)
+        tmp_dates = []
+        current_datetime = datetime_simulation_start
+        k = 0
+        for i in range(number_of_iterations_):
+            data_irradiance[i] = self._irradiance_experiment_2[k]
+            data_tempearture[i] = self._temperature_experiment_2[k]
+            tmp_dates.append(current_datetime)
+            current_datetime += iteration_timedelta_
+            k += 1
+            if k == number_of_iterations_:
+                k = 0
 
-    def get_description(self):
-        """
-            Get a list of description of the weather station
-        :return:
-        """
-        description = []
-        description.append("Weather Station")
-        description.append("Location latitude = " + str(self.location[0]))
-        description.append("Location longiude = " + str(self.location[1]))
-        return description
+        irradiance_profile = pd.DataFrame(data=data_irradiance, index=tmp_dates, columns=['Irradiance'])
+        temperature_profile = pd.DataFrame(data=data_tempearture, index=tmp_dates, columns=['Temperature'])
+        WeatherStation_ = WeatherStation(name_, location_, irradiance_profile, temperature_profile)
+        return WeatherStation_
 
-    #todo: Include weather data to calculate electricity generation
-    def get_weather_conditions(self, datetime_):
-        # Here we need to obtain real values based on location and datetime
-        return {"solar_irradiance_": 0.25, "outdoor_temperature_": -15.2, "humidity": 80}
 
-    def getWeatherData(self, location_, datetime_):
-        cr = csv.reader(open("data.csv","rb"))
-        for row in cr:
-            print(row)
+    def get_weather_data (self, name_, location_, datetime_simulation_start, iteration_timedelta_, number_of_iterations_):
+        data_irradiance = np.zeros(number_of_iterations_)
+        data_temperature = np.zeros(number_of_iterations_)
+        tmp_dates = []
+        tmp_datetime = datetime_simulation_start
+        k = 0
+        for i in range(number_of_iterations_):
+            data_irradiance[i] = self._irradiance_experiment_1[k]
+            data_temperature[i] = self._temperature_experiment_1[k]
+            tmp_dates.append(tmp_datetime)
+            tmp_datetime += iteration_timedelta_
+            k += 1
+            if k == number_of_iterations_:
+                k = 0
+
+        WeatherStation_ = WeatherStation(name_, location_, data_temperature, data_irradiance)
+        return WeatherStation_
